@@ -156,6 +156,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   revealEls.forEach((el) => revealObserver.observe(el));
 
+  // Fallback: pokud je element už v viewportu při načtení (někdy observer nezavolá callback okamžitě)
+  // ručně ho aktivujeme, aby animace nescházela.
+  if (revealEls.length) {
+    requestAnimationFrame(() => {
+      revealEls.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 40) {
+          const delay = el.getAttribute("data-reveal-delay") || "0ms";
+          el.style.transitionDelay = delay;
+          el.classList.add("is-visible");
+          revealObserver.unobserve(el);
+        }
+      });
+    });
+  }
+
   // Nový systém animací přes data-anim
   const advancedAnimEls = document.querySelectorAll("[data-anim]");
   if (advancedAnimEls.length) {
@@ -371,53 +387,4 @@ document.querySelectorAll(".social-links a").forEach((link) => {
     },
     { passive: true }
   );
-})();
-
-// Parallax efekt pro elementy s data-parallax
-(function(){
-  const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
-  if(!parallaxEls.length) return;
-  // Respektuj prefer-reduced-motion
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  // Na velmi malých zařízeních vypneme (často malá výška a může působit trhaně)
-  const isSmall = window.innerWidth < 600;
-  if (isSmall) return;
-
-  const meta = parallaxEls.map(el => ({
-    el,
-    speed: parseFloat(el.getAttribute('data-parallax-speed')) || 0.25,
-    baseY: 0
-  }));
-
-  let ticking = false;
-
-  function update(){
-    const scrollY = window.pageYOffset || 0;
-    meta.forEach(item => {
-      // Jednoduchý model: posun úměrný scrollu, ale mírně ztlumený
-      const translate = Math.round(scrollY * item.speed);
-      // Limit pro přehnaný posun (např. u dlouhých scrollů)
-      const limited = Math.max(-200, Math.min(translate, 400));
-      item.el.style.transform = `translateY(${limited}px)`;
-    });
-    ticking = false;
-  }
-
-  window.addEventListener('scroll', () => {
-    if(!ticking){
-      requestAnimationFrame(update);
-      ticking = true;
-    }
-  }, { passive: true });
-
-  window.addEventListener('resize', () => {
-    // Pokud výrazně zmenší šířku → vypneme parallax resetem
-    if(window.innerWidth < 600){
-      meta.forEach(item => item.el.style.transform = '');
-    } else {
-      update();
-    }
-  });
-
-  update();
 })();
