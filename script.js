@@ -24,6 +24,31 @@ document.addEventListener("DOMContentLoaded", function () {
   hamburger.addEventListener("click", function () {
     hamburger.classList.toggle("active");
     navMenu.classList.toggle("active");
+    document.body.classList.toggle(
+      "menu-open",
+      navMenu.classList.contains("active")
+    );
+    if (navMenu.classList.contains("active")) {
+      // iOS Safari někdy ignoruje 100vh kvůli dynamické liště -> nastavíme explicitně
+      navMenu.style.height = window.innerHeight + "px";
+    } else {
+      navMenu.style.height = "";
+    }
+
+    // postupné zobrazení položek (jen na mobilu / když overlay aktivní)
+    if (navMenu.classList.contains("active")) {
+      const links = navMenu.querySelectorAll("a");
+      links.forEach((link, i) => {
+        link.style.opacity = 0;
+        link.style.transform = "translateY(12px)";
+        link.style.transition =
+          "opacity .5s cubic-bezier(.3,.25,.2,1), transform .5s cubic-bezier(.3,.25,.2,1)";
+        setTimeout(() => {
+          link.style.opacity = 1;
+          link.style.transform = "translateY(0)";
+        }, 80 + i * 90);
+      });
+    }
   });
 
   // Close mobile menu when clicking on a link
@@ -31,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     link.addEventListener("click", () => {
       hamburger.classList.remove("active");
       navMenu.classList.remove("active");
+      document.body.classList.remove("menu-open");
     });
   });
 });
@@ -388,3 +414,30 @@ document.querySelectorAll(".social-links a").forEach((link) => {
     { passive: true }
   );
 })();
+
+// ==============================
+// Back To Top Button Logic (DOMContentLoaded to ensure button exists)
+// ==============================
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.querySelector(".back-to-top");
+  if (!btn) return; // stránka bez tlačítka
+
+  const SHOW_AFTER = 300; // px od vrchu než se zobrazí (dříve 400)
+
+  function updateVisibility() {
+    if (window.pageYOffset > SHOW_AFTER) {
+      if (!btn.classList.contains("visible")) btn.classList.add("visible");
+    } else {
+      btn.classList.remove("visible");
+    }
+  }
+
+  window.addEventListener("scroll", updateVisibility, { passive: true });
+  // Inicializace po načtení (kdyby už byl uživatel níž)
+  updateVisibility();
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});

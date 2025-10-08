@@ -25,7 +25,7 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 1000; /* pod fullscreen menu (1200) */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   /* Pomalejší a plynulejší přechod pro obě směry (schování i zobrazení) */
   transition: transform 0.7s cubic-bezier(0.3, 0.25, 0.2, 1),
@@ -108,12 +108,9 @@ body {
   margin-top: 40px;
   display: flex;
   justify-content: space-between;
-  /* grid-template-columns: 1fr 1fr; */
-  /* gap: 6rem; */
-  align-items: center;
 }
 .hero-text {
-  width: 26%;
+  width: 27%;
 }
 
 .hero-text h1 {
@@ -124,6 +121,7 @@ body {
   letter-spacing: -2.1px;
   margin-bottom: 3rem;
   font-weight: 400;
+  width: 95%;
 }
 
 .hero-text p {
@@ -149,6 +147,13 @@ body {
   text-decoration: none;
   display: inline-block;
   font-weight: 400;
+
+  /* Skrytí na zařízeních širších než mobil */
+  @media (min-width: 641px) {
+    .back-to-top {
+      display: none !important;
+    }
+  }
 }
 
 .cta-button:hover {
@@ -626,6 +631,154 @@ body {
   text-decoration: underline;
 }
 
+/* ===================================================== */
+/* Medium / Tablet & Small Desktop Tweaks                */
+/* Vylepšení čitelnosti a layoutu mezi 1200px a 769px    */
+/* ===================================================== */
+@media (max-width: 1200px) {
+  .hero-text {
+    width: 32%;
+  }
+  .hero-image {
+    width: 58%;
+  }
+  .hero-text h1 {
+    font-size: 64px;
+    line-height: 1.05;
+  }
+  .visit-info h2,
+  .team-text h2,
+  .customer-love h2 {
+    font-size: 64px;
+  }
+  .team-text p {
+    width: 70%;
+  }
+  .visit-info {
+    padding-left: 6rem;
+  }
+  .gallery-grid {
+    width: 70%;
+  }
+}
+
+@media (max-width: 1050px) {
+  .hero-text {
+    width: 38%;
+  }
+  .hero-image {
+    width: 60%;
+  }
+  .hero-text h1 {
+    font-size: 58px;
+  }
+  .visit-info h2,
+  .team-text h2,
+  .customer-love h2 {
+    font-size: 58px;
+  }
+  .visit-info {
+    padding-left: 4rem;
+  }
+  .team-text p {
+    width: 74%;
+  }
+  .gallery-grid {
+    width: 78%;
+  }
+  .menu-page .menu-grid {
+    gap: 50px 38px;
+  }
+}
+
+@media (max-width: 980px) {
+  /* Hero stack */
+  .hero-content {
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-text {
+    width: 70%;
+    text-align: center;
+  }
+  .hero-image {
+    width: 80%;
+  }
+  .hero-text h1 {
+    font-size: 50px;
+  }
+
+  /* Visit section single column earlier */
+  .visit-content {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  .visit-image,
+  .visit-info {
+    width: 100%;
+    padding-left: 0;
+    margin-top: 0;
+  }
+  .visit-info {
+    align-items: center;
+  }
+  .visit-info address,
+  .opening-hours {
+    text-align: center;
+  }
+  .visit-info h2 {
+    font-size: 56px;
+  }
+
+  /* Team section */
+  .team-content {
+    flex-direction: column;
+  }
+  .team-text,
+  .team-image {
+    width: 100%;
+  }
+  .team-text p {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .team-text h2 {
+    font-size: 56px;
+    text-align: center;
+  }
+
+  /* Reviews grid – 3 sloupce místo 4 */
+  .reviews-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    width: 90%;
+  }
+  .customer-love h2 {
+    font-size: 56px;
+  }
+
+  /* Galerie – adaptivní grid bez custom area layoutu */
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-rows: auto;
+    width: 85%;
+    gap: 24px;
+  }
+  .gallery-item {
+    grid-area: auto !important;
+  }
+
+  /* Menu page – přechod na 2 sloupce dříve */
+  .menu-page .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 46px 34px;
+  }
+  .menu-title {
+    text-align: center;
+  }
+}
+
 @media (max-width: 900px) {
   .menu-footer .footer-content {
     flex-direction: column;
@@ -652,6 +805,21 @@ body {
   /* Navigace */
   .hamburger {
     display: flex;
+    position: absolute; /* přesné umístění vpravo */
+    top: 50%; /* vertikální centrování v rámci nav-container */
+    transform: translateY(-50%);
+    right: 14px; /* mírně od kraje pro lepší vyvážení */
+    z-index: 1301; /* nad overlay animací */
+    width: 40px; /* větší klik zona */
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 4px; /* zvětšení hitboxu bez vizuální změny */
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-container {
+    position: relative;
+    max-width: 100%;
   }
   .logo {
     display: flex;
@@ -659,25 +827,99 @@ body {
     align-items: center;
     justify-content: center;
   }
+  /* Fullscreen overlay menu */
   .nav-menu {
     position: fixed;
-    left: -100%;
-    top: 70px;
+    inset: 0; /* top:0; right:0; bottom:0; left:0 */
+    display: flex;
     flex-direction: column;
-    background: #8b6f47;
-    width: 100%;
-    text-align: center;
-    transition: 0.3s;
-    box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
-    padding: 2rem 0;
+    align-items: center;
+    justify-content: flex-start; /* posuneme blok nahoru */
+    gap: 3.8rem; /* o něco menší mezery */
+    background: #e0d2a6; /* světlejší krémová blízká screenshotu */
+    z-index: 1200;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.45s cubic-bezier(0.3, 0.25, 0.2, 1),
+      transform 0.45s cubic-bezier(0.3, 0.25, 0.2, 1),
+      visibility 0s linear 0.45s;
+    padding: 110px 2rem 40px; /* horní odsazení pod hamburger/X */
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
   }
   .nav-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0s, 0s, 0s;
+  }
+  .nav-menu li {
+    list-style: none;
+  }
+  .nav-menu a {
+    font-size: 2.2rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: #1e1e1e;
+    text-decoration: none;
+    position: relative;
+  }
+  .nav-menu a:after {
+    content: "";
+    position: absolute;
     left: 0;
+    bottom: -6px;
+    height: 2px;
+    width: 0;
+    background: #1e1e1e;
+    transition: width 0.35s ease;
+  }
+
+  /* Hamburger (close X state) */
+  .hamburger span {
+    position: absolute;
+    width: 70%;
+    height: 2px;
+    background: #ffffff; /* vráceno zpět na bílou */
+    border-radius: 2px;
+    transition: transform 0.4s cubic-bezier(0.3, 0.25, 0.2, 1),
+      opacity 0.3s ease;
+  }
+  .hamburger.active span {
+    background: #1e1e1e; /* při zobrazení X bude křížek černý */
+    transition: transform 0.4s cubic-bezier(0.3, 0.25, 0.2, 1),
+      opacity 0.3s ease, background-color 0.35s ease;
+  }
+  .hamburger span:nth-child(1) {
+    transform: translateY(-8px);
+  }
+  .hamburger span:nth-child(2) {
+    transform: translateY(0);
+  }
+  .hamburger span:nth-child(3) {
+    transform: translateY(8px);
+  }
+
+  .hamburger.active span:nth-child(1) {
+    transform: translateY(0) rotate(45deg);
+  }
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.active span:nth-child(3) {
+    transform: translateY(0) rotate(-45deg);
+  }
+
+  /* Když je menu otevřené, zamkneme scroll za ním */
+  body.menu-open {
+    overflow: hidden;
   }
 
   /* Hero – lehčí zmenšení typografie */
   .hero {
-    padding: 100px 0 60px;
+    padding: 100px 0 00px;
   }
   .hero-text h1 {
     font-size: 40px;
@@ -692,7 +934,10 @@ body {
     flex-direction: column;
   }
   .visit-us {
-    padding: 20px 0;
+    padding: 0px 0;
+  }
+  .menu-gallery.in-view {
+    margin-top: -10px;
   }
   /* Sekce layout – zachováme dvousloupcově jen na desktopu */
   .container {
@@ -704,6 +949,9 @@ body {
   }
   .our-team {
     padding: 20px 0 0;
+  }
+  .our-team.in-view {
+    margin-top: -10px;
   }
   .team-content,
   .contact-content {
@@ -727,6 +975,9 @@ body {
   }
   .team-text p {
     width: 100%;
+  }
+  .customer-love.in-view {
+    margin-top: -10px;
   }
 
   /* Galerie – jednodušší grid */
@@ -778,6 +1029,9 @@ body {
   .location-image {
     margin-bottom: 0;
   }
+  .location-image.in-view {
+    width: 100%;
+  }
 
   /* Footer */
   .footer-content {
@@ -787,6 +1041,9 @@ body {
   }
   .footer-info {
     text-align: center;
+  }
+  .footer.menu-footer {
+    margin-top: -10px;
   }
 }
 
@@ -817,6 +1074,8 @@ body {
   .visit-content {
     flex-direction: column-reverse;
     gap: 40px;
+    width: 100%;
+    margin-top: 30px;
   }
   .visit-info h2 {
     font-size: 2rem;
@@ -1144,6 +1403,20 @@ body {
   color: white;
 }
 
+/* Odkazy ve footeru (telefon, email) */
+.footer-details a {
+  color: white;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+.footer-details a:hover,
+.footer-details a:focus-visible {
+  text-decoration: underline;
+  outline: none;
+}
+
 .footer-copyright {
   text-align: right;
 }
@@ -1180,6 +1453,9 @@ body {
     flex-direction: column;
     gap: 1.5rem;
     text-align: center;
+  }
+  .back-to-top.visible {
+    display: flex;
   }
 }
 
@@ -1303,5 +1579,60 @@ img:not([src]) {
     transform: none !important;
     filter: none !important;
     transition: none !important;
+  }
+}
+
+/* ========================= */
+/* Back To Top Button */
+/* ========================= */
+.back-to-top {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: #7d5844;
+  color: #f5e6d3;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.85) translateY(6px);
+  transition: opacity 0.4s cubic-bezier(0.3, 0.25, 0.2, 1),
+    transform 0.4s cubic-bezier(0.3, 0.25, 0.2, 1), background-color 0.3s ease;
+  z-index: 1100; /* nad obsahem, pod případnými modaly */
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
+  background: #6d5435;
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top {
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .back-to-top {
+    width: 46px;
+    height: 46px;
+    font-size: 20px;
+    bottom: 20px;
+    right: 20px;
   }
 }
