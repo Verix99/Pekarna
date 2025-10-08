@@ -1,4 +1,4 @@
-/* Reset and Base Styles */
+/* Base reset */
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +10,7 @@ body {
   line-height: 1.6;
   color: #333;
   overflow-x: hidden;
-  background-color: #f0ede1; /* sjednocený podklad proti bílemu záblesku */
+  background-color: #f0ede1;
 }
 
 .container {
@@ -25,9 +25,8 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000; /* pod fullscreen menu (1200) */
+  z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  /* Pomalejší a plynulejší přechod pro obě směry (schování i zobrazení) */
   transition: transform 0.7s cubic-bezier(0.3, 0.25, 0.2, 1),
     opacity 0.7s cubic-bezier(0.3, 0.25, 0.2, 1);
   will-change: transform, opacity;
@@ -38,9 +37,7 @@ body {
   opacity: 0;
 }
 
-/* Vizuální stav po sjetí stránky */
 .header.scrolled:not(.hidden) {
-  /* Ponecháme jen zvýrazněný stín pro jemné oddělení, barva zůstává stejná */
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14);
   transition: box-shadow 0.3s ease;
 }
@@ -71,7 +68,6 @@ body {
 .nav-menu a {
   color: #f1ede1;
   text-decoration: none;
-  /* font-weight: 400; */
   letter-spacing: 0.8px;
   font-size: 16px;
   transition: color 0.3s ease;
@@ -147,13 +143,6 @@ body {
   text-decoration: none;
   display: inline-block;
   font-weight: 400;
-
-  /* Skrytí na zařízeních širších než mobil */
-  @media (min-width: 641px) {
-    .back-to-top {
-      display: none !important;
-    }
-  }
 }
 
 .cta-button:hover {
@@ -165,7 +154,7 @@ body {
   width: 100%;
 }
 .hero-image {
-  width: 60%;
+  width: 65%;
 }
 /* Menu Gallery */
 .menu-gallery {
@@ -190,10 +179,6 @@ body {
 .gallery-item:nth-child(3) {
   grid-area: 1 / 5 / 3 / 7;
 }
-.gallery-item:nth-child(4) {
-  grid-area: 3 / 1 / 5 / 4;
-}
-
 .gallery-item:nth-child(4) {
   grid-area: 3 / 1 / 5 / 4;
 }
@@ -303,7 +288,6 @@ body {
 
 .team-text p {
   font-size: 16px;
-  /* line-height: 1.8; */
   margin-bottom: 1.2rem;
   color: #e0e0e0;
   font-weight: 300;
@@ -572,16 +556,7 @@ body {
   width: auto;
 }
 
-.footer-info {
-  text-align: right;
-}
-
-.footer-info p {
-  font-size: 0.85rem;
-  margin-bottom: 0.3rem;
-  font-weight: 300;
-  line-height: 1.6;
-}
+/* Removed unused .footer-info */
 
 /* Menu page specific footer layout */
 .menu-footer {
@@ -631,10 +606,7 @@ body {
   text-decoration: underline;
 }
 
-/* ===================================================== */
-/* Medium / Tablet & Small Desktop Tweaks                */
-/* Vylepšení čitelnosti a layoutu mezi 1200px a 769px    */
-/* ===================================================== */
+/* Tablet & small desktop adjustments */
 @media (max-width: 1200px) {
   .hero-text {
     width: 32%;
@@ -692,7 +664,6 @@ body {
 }
 
 @media (max-width: 980px) {
-  /* Hero stack */
   .hero-content {
     flex-direction: column;
     align-items: center;
@@ -708,7 +679,6 @@ body {
     font-size: 50px;
   }
 
-  /* Visit section single column earlier */
   .visit-content {
     flex-direction: column;
     gap: 3rem;
@@ -730,7 +700,6 @@ body {
     font-size: 56px;
   }
 
-  /* Team section */
   .team-content {
     flex-direction: column;
   }
@@ -748,7 +717,6 @@ body {
     text-align: center;
   }
 
-  /* Reviews grid – 3 sloupce místo 4 */
   .reviews-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 3rem;
@@ -758,7 +726,6 @@ body {
     font-size: 56px;
   }
 
-  /* Galerie – adaptivní grid bez custom area layoutu */
   .gallery-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-template-rows: auto;
@@ -769,7 +736,6 @@ body {
     grid-area: auto !important;
   }
 
-  /* Menu page – přechod na 2 sloupce dříve */
   .menu-page .menu-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 46px 34px;
@@ -802,7 +768,6 @@ body {
 /* =============================== */
 /* Tablet (<=768px) */
 @media (max-width: 768px) {
-  /* Navigace */
   .hamburger {
     display: flex;
     position: absolute; /* přesné umístění vpravo */
@@ -827,7 +792,6 @@ body {
     align-items: center;
     justify-content: center;
   }
-  /* Fullscreen overlay menu */
   .nav-menu {
     position: fixed;
     inset: 0; /* top:0; right:0; bottom:0; left:0 */
@@ -877,7 +841,6 @@ body {
     transition: width 0.35s ease;
   }
 
-  /* Hamburger (close X state) */
   .hamburger span {
     position: absolute;
     width: 70%;
@@ -912,12 +875,10 @@ body {
     transform: translateY(0) rotate(-45deg);
   }
 
-  /* Když je menu otevřené, zamkneme scroll za ním */
   body.menu-open {
     overflow: hidden;
   }
 
-  /* Hero – lehčí zmenšení typografie */
   .hero {
     padding: 100px 0 00px;
   }
@@ -939,7 +900,6 @@ body {
   .menu-gallery.in-view {
     margin-top: -10px;
   }
-  /* Sekce layout – zachováme dvousloupcově jen na desktopu */
   .container {
     display: flex;
     flex-direction: column;
@@ -980,7 +940,6 @@ body {
     margin-top: -10px;
   }
 
-  /* Galerie – jednodušší grid */
   .gallery-grid {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     grid-template-columns: auto;
@@ -1004,21 +963,18 @@ body {
   .contact-info.in-view p {
     width: 90%;
   }
-  /* Hodiny / nadpisy mírně menší */
   .visit-info h2,
   .team-text h2,
   .customer-love h2 {
     font-size: 2.4rem;
   }
 
-  /* Recenze – 2 sloupce */
   .reviews-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
     width: 90%;
   }
 
-  /* Kontakt blok (landing) */
   .contact-form {
     margin-top: 1.5rem;
   }
@@ -1033,7 +989,6 @@ body {
     width: 100%;
   }
 
-  /* Footer */
   .footer-content {
     flex-direction: column;
     gap: 1.5rem;
@@ -1047,7 +1002,7 @@ body {
   }
 }
 
-/* Mobile (<=640px) – zásadní zjednodušení layoutu */
+/* Mobile (<=640px) */
 @media (max-width: 640px) {
   .hero-content {
     flex-direction: column;
@@ -1204,9 +1159,7 @@ body {
   text-decoration: underline;
 }
 
-/* =============================== */
-/* Menu Page Responsive (tablet & mobile only) */
-/* =============================== */
+/* Menu page responsive */
 @media (max-width: 768px) {
   .menu-container {
     padding: 0 20px;
@@ -1256,7 +1209,7 @@ body {
   }
 }
 
-/* Contact Page Styles */
+/* Contact page */
 .contact-page {
   background-color: #f0ede1;
   min-height: 100vh;
@@ -1382,7 +1335,7 @@ body {
   border: 1px solid black;
 }
 
-/* Footer enhancements for contact page */
+/* Contact page footer */
 .contact-page .footer {
   color: white;
   padding: 3rem 0 2rem;
@@ -1403,7 +1356,7 @@ body {
   color: white;
 }
 
-/* Odkazy ve footeru (telefon, email) */
+/* Footer links */
 .footer-details a {
   color: white;
   text-decoration: none;
@@ -1427,7 +1380,7 @@ body {
   margin: 0;
 }
 
-/* Contact page responsive design */
+/* Contact page responsive */
 @media (max-width: 768px) {
   .contact-title {
     font-size: 2.5rem;
@@ -1472,7 +1425,8 @@ body {
     padding: 12px 30px;
     font-size: 0.95rem;
   }
-} /* Smooth scrolling */
+}
+/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 110px; /* aby anchor cíle nekončily pod headerem */
@@ -1512,7 +1466,6 @@ img:not([src]) {
   transform: translateY(0);
 }
 .no-js .content-fade {
-  /* fallback bez JS */
   opacity: 1;
   transform: none;
   transition: none;
@@ -1525,11 +1478,8 @@ img:not([src]) {
   }
 }
 
-/* ========================= */
-/* Sekce: Pokročilé scroll animace (landing) */
-/* ========================= */
+/* Data-attribute driven animations */
 
-/* Základní stav před zobrazením */
 [data-anim] {
   opacity: 0;
 }
@@ -1551,7 +1501,6 @@ img:not([src]) {
   transform: translateY(50px);
 }
 
-/* Viditelné (aktivované) stavy */
 [data-anim].in-view {
   opacity: 1;
   transform: none;
@@ -1561,18 +1510,15 @@ img:not([src]) {
   transition-timing-function: cubic-bezier(0.25, 0.4, 0.18, 1);
 }
 
-/* Jemné prodloužení pro obrázky */
 [data-anim="scale-in"].in-view {
   transition-duration: 1.1s;
   transition-timing-function: cubic-bezier(0.22, 0.55, 0.25, 1);
 }
 
-/* Postupné zpoždění z atributu */
 [data-anim][data-anim-delay] {
   transition-delay: var(--anim-delay, 0ms);
 }
 
-/* Preferuje-li uživatel méně pohybu */
 @media (prefers-reduced-motion: reduce) {
   [data-anim] {
     opacity: 1 !important;
@@ -1582,9 +1528,7 @@ img:not([src]) {
   }
 }
 
-/* ========================= */
-/* Back To Top Button */
-/* ========================= */
+/* Back to top */
 .back-to-top {
   position: fixed;
   bottom: 28px;
