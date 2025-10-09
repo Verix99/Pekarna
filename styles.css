@@ -972,6 +972,10 @@ body {
   .customer-love h2 {
     font-size: 2.4rem;
   }
+  .visit-image img {
+    height: 200px;
+    object-fit: cover;
+  }
 
   .reviews-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1038,6 +1042,10 @@ body {
   }
   .visit-info h2 {
     font-size: 2rem;
+  }
+  .visit-image img {
+    height: 200px;
+    object-fit: cover;
   }
   .team-text h2,
   .customer-love h2 {
