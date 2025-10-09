@@ -301,7 +301,7 @@ body {
 }
 
 .team-image img {
-  object-fit: fill;
+  object-fit: contain;
   width: 100%;
 }
 .team-image {
@@ -951,6 +951,7 @@ body {
   }
   .team-image img {
     height: 300px;
+    object-fit: fill;
   }
   .contact-form-section.in-view {
     width: 90%;
