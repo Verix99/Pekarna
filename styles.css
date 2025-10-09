@@ -736,6 +736,9 @@ body {
     width: 85%;
     gap: 24px;
   }
+  .gallery-item img {
+    object-fit: cover;
+  }
   .gallery-item {
     grid-area: auto !important;
   }
