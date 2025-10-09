@@ -5,12 +5,18 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
   line-height: 1.6;
   color: #333;
   overflow-x: hidden;
   background-color: #f0ede1;
+  max-width: 100vw;
 }
 
 .container {
@@ -556,8 +562,6 @@ body {
   width: auto;
 }
 
-/* Removed unused .footer-info */
-
 /* Menu page specific footer layout */
 .menu-footer {
   background-color: #7d5844;
@@ -762,24 +766,20 @@ body {
   }
 }
 
-/* Responsive Design */
-/* =============================== */
-/* Landing Page Responsive (ONLY tablet & mobile) */
-/* =============================== */
 /* Tablet (<=768px) */
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
-    position: absolute; /* přesné umístění vpravo */
-    top: 50%; /* vertikální centrování v rámci nav-container */
+    position: absolute;
+    top: 50%;
     transform: translateY(-50%);
-    right: 14px; /* mírně od kraje pro lepší vyvážení */
-    z-index: 1301; /* nad overlay animací */
-    width: 40px; /* větší klik zona */
+    right: 14px;
+    z-index: 1301;
+    width: 40px;
     height: 40px;
     align-items: center;
     justify-content: center;
-    padding: 4px; /* zvětšení hitboxu bez vizuální změny */
+    padding: 4px;
     -webkit-tap-highlight-color: transparent;
   }
   .nav-container {
@@ -794,13 +794,13 @@ body {
   }
   .nav-menu {
     position: fixed;
-    inset: 0; /* top:0; right:0; bottom:0; left:0 */
+    inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* posuneme blok nahoru */
-    gap: 3.8rem; /* o něco menší mezery */
-    background: #e0d2a6; /* světlejší krémová blízká screenshotu */
+    justify-content: flex-start;
+    gap: 3.8rem;
+    background: #e0d2a6;
     z-index: 1200;
     opacity: 0;
     visibility: hidden;
@@ -808,7 +808,7 @@ body {
     transition: opacity 0.45s cubic-bezier(0.3, 0.25, 0.2, 1),
       transform 0.45s cubic-bezier(0.3, 0.25, 0.2, 1),
       visibility 0s linear 0.45s;
-    padding: 110px 2rem 40px; /* horní odsazení pod hamburger/X */
+    padding: 110px 2rem 40px;
     width: 100vw;
     height: 100vh;
     overflow-y: auto;
@@ -845,13 +845,13 @@ body {
     position: absolute;
     width: 70%;
     height: 2px;
-    background: #ffffff; /* vráceno zpět na bílou */
+    background: #ffffff;
     border-radius: 2px;
     transition: transform 0.4s cubic-bezier(0.3, 0.25, 0.2, 1),
       opacity 0.3s ease;
   }
   .hamburger.active span {
-    background: #1e1e1e; /* při zobrazení X bude křížek černý */
+    background: #1e1e1e;
     transition: transform 0.4s cubic-bezier(0.3, 0.25, 0.2, 1),
       opacity 0.3s ease, background-color 0.35s ease;
   }
@@ -1429,7 +1429,7 @@ body {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 110px; /* aby anchor cíle nekončily pod headerem */
+  scroll-padding-top: 110px;
 }
 
 /* Loading animation for images */
@@ -1550,7 +1550,7 @@ img:not([src]) {
   transform: scale(0.85) translateY(6px);
   transition: opacity 0.4s cubic-bezier(0.3, 0.25, 0.2, 1),
     transform 0.4s cubic-bezier(0.3, 0.25, 0.2, 1), background-color 0.3s ease;
-  z-index: 1100; /* nad obsahem, pod případnými modaly */
+  z-index: 1100;
 }
 
 .back-to-top.visible {
