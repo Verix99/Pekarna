@@ -209,16 +209,72 @@ function setupContactForm(formSelector) {
   const form = document.querySelector(formSelector);
   if (!form) return;
   if (form.hasAttribute("data-external") && form.hasAttribute("data-inline")) {
+    // Lightweight anti-bot state for this form
+    let startedAt = Date.now();
+    let userInteracted = false;
+    const markHuman = () => {
+      userInteracted = true;
+      const humanField = form.querySelector('input[name="_human"]');
+      if (humanField) humanField.value = "1";
+    };
+    form.addEventListener("input", markHuman);
+    form.addEventListener("keydown", markHuman);
+
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
+      // Anti-bot checks
+      const honey = form.querySelector('input[name="_honey"]');
+      if (honey && honey.value && honey.value.trim() !== "") {
+        // Honeypot filled -> likely bot
+        return;
+      }
+      const elapsed = Date.now() - startedAt;
+      if (elapsed < 800 || !userInteracted) {
+        alert("Please fill the form before submitting.");
+        return;
+      }
+
       const submitBtn = form.querySelector(".submit-button, .submit-btn");
       const original = submitBtn ? submitBtn.textContent : "";
+      let restoreTextTimer;
       if (submitBtn) {
         submitBtn.disabled = true;
+        submitBtn.dataset.originalText = original;
+        submitBtn.classList.add("is-loading");
         submitBtn.textContent = "Sending...";
+        // If server is slow, update message after 5s
+        restoreTextTimer = setTimeout(() => {
+          if (submitBtn && submitBtn.disabled) {
+            submitBtn.textContent = "Still sending...";
+          }
+        }, 5000);
       }
       const formData = new FormData(form);
       formData.delete("_next");
+      // Basic validation here as well (AJAX path)
+      const email = formData.get("email");
+      const message = (formData.get("message") || "").toString().trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email)) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove("is-loading");
+          submitBtn.textContent = original;
+          if (restoreTextTimer) clearTimeout(restoreTextTimer);
+        }
+        alert("Please enter a valid email address.");
+        return;
+      }
+      if (message.length < 8) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove("is-loading");
+          submitBtn.textContent = original;
+          if (restoreTextTimer) clearTimeout(restoreTextTimer);
+        }
+        alert("Please write a longer message.");
+        return;
+      }
       try {
         const res = await fetch(form.action, {
           method: "POST",
@@ -230,13 +286,18 @@ function setupContactForm(formSelector) {
         }
         alert("Thank you for your message!");
         form.reset();
+        // Reset anti-bot state
+        startedAt = Date.now();
+        userInteracted = false;
       } catch (err) {
         alert("Submission failed. Please try again.");
         console.error(err);
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;
+          submitBtn.classList.remove("is-loading");
           submitBtn.textContent = original;
+          if (restoreTextTimer) clearTimeout(restoreTextTimer);
         }
       }
     });
@@ -340,5 +401,3 @@ function setupContactForm(formSelector) {
     { passive: true }
   );
 })();
-
-// (Back-to-top logic moved into main DOMContentLoaded block above)
